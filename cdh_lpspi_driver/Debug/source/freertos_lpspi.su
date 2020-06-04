@@ -1,0 +1,4 @@
+core_cm7.h:2013:22:__NVIC_SetPriority	16	static
+freertos_lpspi.c:90:5:main	24	static
+freertos_lpspi.c:179:6:mag_queue_task	40	static
+freertos_lpspi.c:237:6:gyro_queue_task	40	static

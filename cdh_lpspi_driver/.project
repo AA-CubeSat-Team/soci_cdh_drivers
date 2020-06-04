@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>evkbimxrt1050_freertos_lpspi</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>com.nxp.mcuxpresso.core.datamodels.sdkNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>doc/readme.txt</name>
+			<type>1</type>
+			<location>C:/Users/Hirotoshi Maeda/mcuxpresso/02/SDKPackages/SDK_2.6.1_EVKB-IMXRT1050/boards/evkbimxrt1050/rtos_examples/freertos_lpspi/readme.txt</location>
+		</link>
+		<link>
+			<name>doc/amazon-freertos/ChangeLogKSDK.txt</name>
+			<type>1</type>
+			<location>C:/Users/Hirotoshi Maeda/mcuxpresso/02/SDKPackages/SDK_2.6.1_EVKB-IMXRT1050/rtos/amazon-freertos/ChangeLogKSDK.txt</location>
+		</link>
+		<link>
+			<name>doc/amazon-freertos/directories.txt</name>
+			<type>1</type>
+			<location>C:/Users/Hirotoshi Maeda/mcuxpresso/02/SDKPackages/SDK_2.6.1_EVKB-IMXRT1050/rtos/amazon-freertos/directories.txt</location>
+		</link>
+		<link>
+			<name>doc/amazon-freertos/license/directories.txt</name>
+			<type>1</type>
+			<location>C:/Users/Hirotoshi Maeda/mcuxpresso/02/SDKPackages/SDK_2.6.1_EVKB-IMXRT1050/rtos/amazon-freertos/lib/directories.txt</location>
+		</link>
+		<link>
+			<name>doc/amazon-freertos/freertos/portable/readme.txt</name>
+			<type>1</type>
+			<location>C:/Users/Hirotoshi Maeda/mcuxpresso/02/SDKPackages/SDK_2.6.1_EVKB-IMXRT1050/rtos/amazon-freertos/lib/FreeRTOS/portable/readme.txt</location>
+		</link>
+	</linkedResources>
+</projectDescription>

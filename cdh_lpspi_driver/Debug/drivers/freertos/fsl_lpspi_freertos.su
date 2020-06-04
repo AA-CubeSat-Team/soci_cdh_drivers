@@ -1,0 +1,4 @@
+fsl_lpspi_freertos.c:16:13:LPSPI_RTOS_Callback	32	static
+fsl_lpspi_freertos.c:36:10:LPSPI_RTOS_Init	24	static
+fsl_lpspi_freertos.c:81:10:LPSPI_RTOS_Deinit	16	static
+fsl_lpspi_freertos.c:99:10:LPSPI_RTOS_Transfer	24	static
