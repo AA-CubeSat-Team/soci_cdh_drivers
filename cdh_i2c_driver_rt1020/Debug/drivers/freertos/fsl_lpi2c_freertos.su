@@ -1,0 +1,4 @@
+fsl_lpi2c_freertos.c:16:13:LPI2C_RTOS_Callback	32	static
+fsl_lpi2c_freertos.c:36:10:LPI2C_RTOS_Init	24	static
+fsl_lpi2c_freertos.c:81:10:LPI2C_RTOS_Deinit	16	static
+fsl_lpi2c_freertos.c:100:10:LPI2C_RTOS_Transfer	24	static
