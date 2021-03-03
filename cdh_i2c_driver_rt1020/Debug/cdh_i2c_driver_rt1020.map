@@ -4150,32 +4150,32 @@ END GROUP
                 0x0000000000009290                _image_size = (_image_end - _image_start)
 OUTPUT(cdh_i2c_driver_rt1020.axf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x16bbc
+.debug_info     0x0000000000000000    0x16bbd
  .debug_info    0x0000000000000000      0x7f3 ./xip/evkmimxrt1020_flexspi_nor_config.o
  .debug_info    0x00000000000007f3      0x5ef ./xip/fsl_flexspi_nor_boot.o
  .debug_info    0x0000000000000de2      0x156 ./utilities/fsl_assert.o
  .debug_info    0x0000000000000f38      0xab5 ./utilities/fsl_debug_console.o
  .debug_info    0x00000000000019ed      0xafe ./utilities/fsl_str.o
  .debug_info    0x00000000000024eb      0xd01 ./startup/startup_mimxrt1021.o
- .debug_info    0x00000000000031ec     0x1f23 ./source/freertos_lpi2c.o
- .debug_info    0x000000000000510f       0x3c ./source/semihost_hardfault.o
- .debug_info    0x000000000000514b      0x505 ./freertos/freertos_kernel/portable/MemMang/heap_4.o
- .debug_info    0x0000000000005650      0x511 ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
- .debug_info    0x0000000000005b61      0x302 ./freertos/freertos_kernel/list.o
- .debug_info    0x0000000000005e63     0x16db ./freertos/freertos_kernel/queue.o
- .debug_info    0x000000000000753e     0x20b7 ./freertos/freertos_kernel/tasks.o
- .debug_info    0x00000000000095f5      0xeb6 ./freertos/freertos_kernel/timers.o
- .debug_info    0x000000000000a4ab      0x95f ./drivers/freertos/fsl_lpi2c_freertos.o
- .debug_info    0x000000000000ae0a     0x1b2a ./drivers/fsl_clock.o
- .debug_info    0x000000000000c934     0x2c3f ./drivers/fsl_lpi2c.o
- .debug_info    0x000000000000f573     0x21d4 ./drivers/fsl_lpuart.o
- .debug_info    0x0000000000011747      0xc94 ./device/system_MIMXRT1021.o
- .debug_info    0x00000000000123db      0xa63 ./component/uart/lpuart_adapter.o
- .debug_info    0x0000000000012e3e      0x8db ./component/serial_manager/serial_manager.o
- .debug_info    0x0000000000013719      0x589 ./component/serial_manager/serial_port_uart.o
- .debug_info    0x0000000000013ca2     0x10b7 ./board/board.o
- .debug_info    0x0000000000014d59     0x16c4 ./board/clock_config.o
- .debug_info    0x000000000001641d      0x79f ./board/pin_mux.o
+ .debug_info    0x00000000000031ec     0x1f24 ./source/freertos_lpi2c.o
+ .debug_info    0x0000000000005110       0x3c ./source/semihost_hardfault.o
+ .debug_info    0x000000000000514c      0x505 ./freertos/freertos_kernel/portable/MemMang/heap_4.o
+ .debug_info    0x0000000000005651      0x511 ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
+ .debug_info    0x0000000000005b62      0x302 ./freertos/freertos_kernel/list.o
+ .debug_info    0x0000000000005e64     0x16db ./freertos/freertos_kernel/queue.o
+ .debug_info    0x000000000000753f     0x20b7 ./freertos/freertos_kernel/tasks.o
+ .debug_info    0x00000000000095f6      0xeb6 ./freertos/freertos_kernel/timers.o
+ .debug_info    0x000000000000a4ac      0x95f ./drivers/freertos/fsl_lpi2c_freertos.o
+ .debug_info    0x000000000000ae0b     0x1b2a ./drivers/fsl_clock.o
+ .debug_info    0x000000000000c935     0x2c3f ./drivers/fsl_lpi2c.o
+ .debug_info    0x000000000000f574     0x21d4 ./drivers/fsl_lpuart.o
+ .debug_info    0x0000000000011748      0xc94 ./device/system_MIMXRT1021.o
+ .debug_info    0x00000000000123dc      0xa63 ./component/uart/lpuart_adapter.o
+ .debug_info    0x0000000000012e3f      0x8db ./component/serial_manager/serial_manager.o
+ .debug_info    0x000000000001371a      0x589 ./component/serial_manager/serial_port_uart.o
+ .debug_info    0x0000000000013ca3     0x10b7 ./board/board.o
+ .debug_info    0x0000000000014d5a     0x16c4 ./board/clock_config.o
+ .debug_info    0x000000000001641e      0x79f ./board/pin_mux.o
 
 .debug_abbrev   0x0000000000000000     0x33db
  .debug_abbrev  0x0000000000000000      0x14c ./xip/evkmimxrt1020_flexspi_nor_config.o
@@ -4256,7 +4256,7 @@ OUTPUT(cdh_i2c_driver_rt1020.axf elf32-littlearm)
  .debug_aranges
                 0x00000000000012f0       0x48 ./board/pin_mux.o
 
-.debug_macro    0x0000000000000000    0x279ad
+.debug_macro    0x0000000000000000    0x279f5
  .debug_macro   0x0000000000000000      0x118 ./xip/evkmimxrt1020_flexspi_nor_config.o
  .debug_macro   0x0000000000000118      0xafc ./xip/evkmimxrt1020_flexspi_nor_config.o
  .debug_macro   0x0000000000000c14       0x10 ./xip/evkmimxrt1020_flexspi_nor_config.o
@@ -4313,39 +4313,39 @@ OUTPUT(cdh_i2c_driver_rt1020.axf elf32-littlearm)
  .debug_macro   0x0000000000024c0b       0x1c ./utilities/fsl_str.o
  .debug_macro   0x0000000000024c27       0x5d ./utilities/fsl_str.o
  .debug_macro   0x0000000000024c84       0x29 ./startup/startup_mimxrt1021.o
- .debug_macro   0x0000000000024cad      0x2aa ./source/freertos_lpi2c.o
- .debug_macro   0x0000000000024f57       0xd8 ./source/freertos_lpi2c.o
- .debug_macro   0x000000000002502f       0x10 ./source/freertos_lpi2c.o
- .debug_macro   0x000000000002503f       0x97 ./source/freertos_lpi2c.o
- .debug_macro   0x00000000000250d6       0x1c ./source/freertos_lpi2c.o
- .debug_macro   0x00000000000250f2       0x16 ./source/freertos_lpi2c.o
- .debug_macro   0x0000000000025108       0x11 ./source/semihost_hardfault.o
- .debug_macro   0x0000000000025119       0xdf ./freertos/freertos_kernel/portable/MemMang/heap_4.o
- .debug_macro   0x00000000000251f8      0x179 ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
- .debug_macro   0x0000000000025371       0x16 ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
- .debug_macro   0x0000000000025387       0xb8 ./freertos/freertos_kernel/list.o
- .debug_macro   0x000000000002543f      0x125 ./freertos/freertos_kernel/queue.o
- .debug_macro   0x0000000000025564      0x192 ./freertos/freertos_kernel/tasks.o
- .debug_macro   0x00000000000256f6       0x10 ./freertos/freertos_kernel/tasks.o
- .debug_macro   0x0000000000025706       0x16 ./freertos/freertos_kernel/tasks.o
- .debug_macro   0x000000000002571c      0x10d ./freertos/freertos_kernel/timers.o
- .debug_macro   0x0000000000025829      0x1bb ./drivers/freertos/fsl_lpi2c_freertos.o
- .debug_macro   0x00000000000259e4       0x10 ./drivers/freertos/fsl_lpi2c_freertos.o
- .debug_macro   0x00000000000259f4      0x103 ./drivers/fsl_clock.o
- .debug_macro   0x0000000000025af7      0x125 ./drivers/fsl_lpi2c.o
- .debug_macro   0x0000000000025c1c      0x112 ./drivers/fsl_lpuart.o
- .debug_macro   0x0000000000025d2e       0x10 ./drivers/fsl_lpuart.o
- .debug_macro   0x0000000000025d3e       0xa7 ./device/system_MIMXRT1021.o
- .debug_macro   0x0000000000025de5      0x175 ./component/uart/lpuart_adapter.o
- .debug_macro   0x0000000000025f5a       0x16 ./component/uart/lpuart_adapter.o
- .debug_macro   0x0000000000025f70       0x28 ./component/uart/lpuart_adapter.o
- .debug_macro   0x0000000000025f98      0x1ac ./component/serial_manager/serial_manager.o
- .debug_macro   0x0000000000026144      0x194 ./component/serial_manager/serial_port_uart.o
- .debug_macro   0x00000000000262d8      0x1c3 ./board/board.o
- .debug_macro   0x000000000002649b      0x10c ./board/board.o
- .debug_macro   0x00000000000265a7     0x11e1 ./board/board.o
- .debug_macro   0x0000000000027788      0x115 ./board/clock_config.o
- .debug_macro   0x000000000002789d      0x110 ./board/pin_mux.o
+ .debug_macro   0x0000000000024cad      0x2f2 ./source/freertos_lpi2c.o
+ .debug_macro   0x0000000000024f9f       0xd8 ./source/freertos_lpi2c.o
+ .debug_macro   0x0000000000025077       0x10 ./source/freertos_lpi2c.o
+ .debug_macro   0x0000000000025087       0x97 ./source/freertos_lpi2c.o
+ .debug_macro   0x000000000002511e       0x1c ./source/freertos_lpi2c.o
+ .debug_macro   0x000000000002513a       0x16 ./source/freertos_lpi2c.o
+ .debug_macro   0x0000000000025150       0x11 ./source/semihost_hardfault.o
+ .debug_macro   0x0000000000025161       0xdf ./freertos/freertos_kernel/portable/MemMang/heap_4.o
+ .debug_macro   0x0000000000025240      0x179 ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
+ .debug_macro   0x00000000000253b9       0x16 ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
+ .debug_macro   0x00000000000253cf       0xb8 ./freertos/freertos_kernel/list.o
+ .debug_macro   0x0000000000025487      0x125 ./freertos/freertos_kernel/queue.o
+ .debug_macro   0x00000000000255ac      0x192 ./freertos/freertos_kernel/tasks.o
+ .debug_macro   0x000000000002573e       0x10 ./freertos/freertos_kernel/tasks.o
+ .debug_macro   0x000000000002574e       0x16 ./freertos/freertos_kernel/tasks.o
+ .debug_macro   0x0000000000025764      0x10d ./freertos/freertos_kernel/timers.o
+ .debug_macro   0x0000000000025871      0x1bb ./drivers/freertos/fsl_lpi2c_freertos.o
+ .debug_macro   0x0000000000025a2c       0x10 ./drivers/freertos/fsl_lpi2c_freertos.o
+ .debug_macro   0x0000000000025a3c      0x103 ./drivers/fsl_clock.o
+ .debug_macro   0x0000000000025b3f      0x125 ./drivers/fsl_lpi2c.o
+ .debug_macro   0x0000000000025c64      0x112 ./drivers/fsl_lpuart.o
+ .debug_macro   0x0000000000025d76       0x10 ./drivers/fsl_lpuart.o
+ .debug_macro   0x0000000000025d86       0xa7 ./device/system_MIMXRT1021.o
+ .debug_macro   0x0000000000025e2d      0x175 ./component/uart/lpuart_adapter.o
+ .debug_macro   0x0000000000025fa2       0x16 ./component/uart/lpuart_adapter.o
+ .debug_macro   0x0000000000025fb8       0x28 ./component/uart/lpuart_adapter.o
+ .debug_macro   0x0000000000025fe0      0x1ac ./component/serial_manager/serial_manager.o
+ .debug_macro   0x000000000002618c      0x194 ./component/serial_manager/serial_port_uart.o
+ .debug_macro   0x0000000000026320      0x1c3 ./board/board.o
+ .debug_macro   0x00000000000264e3      0x10c ./board/board.o
+ .debug_macro   0x00000000000265ef     0x11e1 ./board/board.o
+ .debug_macro   0x00000000000277d0      0x115 ./board/clock_config.o
+ .debug_macro   0x00000000000278e5      0x110 ./board/pin_mux.o
 
 .debug_line     0x0000000000000000     0xf18d
  .debug_line    0x0000000000000000      0x3a6 ./xip/evkmimxrt1020_flexspi_nor_config.o
@@ -4374,7 +4374,7 @@ OUTPUT(cdh_i2c_driver_rt1020.axf elf32-littlearm)
  .debug_line    0x000000000000e634      0x6d9 ./board/clock_config.o
  .debug_line    0x000000000000ed0d      0x480 ./board/pin_mux.o
 
-.debug_str      0x0000000000000000   0x135c50
+.debug_str      0x0000000000000000   0x135d4f
  .debug_str     0x0000000000000000   0x117d75 ./xip/evkmimxrt1020_flexspi_nor_config.o
                                      0x117e1e (size before relaxing)
  .debug_str     0x0000000000117d75     0x165b ./xip/fsl_flexspi_nor_boot.o
@@ -4387,43 +4387,43 @@ OUTPUT(cdh_i2c_driver_rt1020.axf elf32-littlearm)
                                      0x1173d9 (size before relaxing)
  .debug_str     0x000000000011f77a      0xd0a ./startup/startup_mimxrt1021.o
                                        0x3ce9 (size before relaxing)
- .debug_str     0x0000000000120484     0x284e ./source/freertos_lpi2c.o
-                                     0x11fe1f (size before relaxing)
- .debug_str     0x0000000000122cd2       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x0000000000120484     0x294d ./source/freertos_lpi2c.o
+                                     0x11ff1e (size before relaxing)
+ .debug_str     0x0000000000122dd1       0x1f ./source/semihost_hardfault.o
                                        0x2f6f (size before relaxing)
- .debug_str     0x0000000000122cf1      0x3a8 ./freertos/freertos_kernel/portable/MemMang/heap_4.o
+ .debug_str     0x0000000000122df0      0x3a8 ./freertos/freertos_kernel/portable/MemMang/heap_4.o
                                        0x8694 (size before relaxing)
- .debug_str     0x0000000000123099      0x83b ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
+ .debug_str     0x0000000000123198      0x83b ./freertos/freertos_kernel/portable/GCC/ARM_CM4F/port.o
                                        0x8b26 (size before relaxing)
- .debug_str     0x00000000001238d4      0x135 ./freertos/freertos_kernel/list.o
+ .debug_str     0x00000000001239d3      0x135 ./freertos/freertos_kernel/list.o
                                        0x7da6 (size before relaxing)
- .debug_str     0x0000000000123a09      0x89c ./freertos/freertos_kernel/queue.o
+ .debug_str     0x0000000000123b08      0x89c ./freertos/freertos_kernel/queue.o
                                        0x9454 (size before relaxing)
- .debug_str     0x00000000001242a5     0x14e2 ./freertos/freertos_kernel/tasks.o
+ .debug_str     0x00000000001243a4     0x14e2 ./freertos/freertos_kernel/tasks.o
                                        0xa236 (size before relaxing)
- .debug_str     0x0000000000125787      0x608 ./freertos/freertos_kernel/timers.o
+ .debug_str     0x0000000000125886      0x608 ./freertos/freertos_kernel/timers.o
                                        0x997c (size before relaxing)
- .debug_str     0x0000000000125d8f      0x1a9 ./drivers/freertos/fsl_lpi2c_freertos.o
+ .debug_str     0x0000000000125e8e      0x1a9 ./drivers/freertos/fsl_lpi2c_freertos.o
                                      0x11bc3e (size before relaxing)
- .debug_str     0x0000000000125f38      0xab0 ./drivers/fsl_clock.o
+ .debug_str     0x0000000000126037      0xab0 ./drivers/fsl_clock.o
                                      0x118049 (size before relaxing)
- .debug_str     0x00000000001269e8     0x1284 ./drivers/fsl_lpi2c.o
+ .debug_str     0x0000000000126ae7     0x1284 ./drivers/fsl_lpi2c.o
                                      0x119980 (size before relaxing)
- .debug_str     0x0000000000127c6c     0x1086 ./drivers/fsl_lpuart.o
+ .debug_str     0x0000000000127d6b     0x1086 ./drivers/fsl_lpuart.o
                                      0x119326 (size before relaxing)
- .debug_str     0x0000000000128cf2       0xe5 ./device/system_MIMXRT1021.o
+ .debug_str     0x0000000000128df1       0xe5 ./device/system_MIMXRT1021.o
                                      0x11561c (size before relaxing)
- .debug_str     0x0000000000128dd7      0x2f9 ./component/uart/lpuart_adapter.o
+ .debug_str     0x0000000000128ed6      0x2f9 ./component/uart/lpuart_adapter.o
                                      0x11a8b6 (size before relaxing)
- .debug_str     0x00000000001290d0      0x3d6 ./component/serial_manager/serial_manager.o
+ .debug_str     0x00000000001291cf      0x3d6 ./component/serial_manager/serial_manager.o
                                      0x11a280 (size before relaxing)
- .debug_str     0x00000000001294a6       0xed ./component/serial_manager/serial_port_uart.o
+ .debug_str     0x00000000001295a5       0xed ./component/serial_manager/serial_port_uart.o
                                      0x11a263 (size before relaxing)
- .debug_str     0x0000000000129593     0xc25b ./board/board.o
+ .debug_str     0x0000000000129692     0xc25b ./board/board.o
                                      0x1279ec (size before relaxing)
- .debug_str     0x00000000001357ee      0x3b3 ./board/clock_config.o
+ .debug_str     0x00000000001358ed      0x3b3 ./board/clock_config.o
                                      0x124c73 (size before relaxing)
- .debug_str     0x0000000000135ba1       0xaf ./board/pin_mux.o
+ .debug_str     0x0000000000135ca0       0xaf ./board/pin_mux.o
                                      0x123193 (size before relaxing)
 
 .comment        0x0000000000000000       0x79
