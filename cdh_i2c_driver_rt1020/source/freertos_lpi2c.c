@@ -149,7 +149,7 @@ int main(void)
     /* Set up i2c master to send data to slave */
     for (i = 0; i < I2C_DATA_LENGTH; i++)
     {
-        i2c1_master_buff[i] = i;
+    	i2c1_tx_buff[i] = i;
     }
 
     if (xTaskCreate(master_task, "Master_task", configMINIMAL_STACK_SIZE + 100, NULL, master_task_PRIORITY, NULL) !=
@@ -168,11 +168,71 @@ int main(void)
 }
 
 
+void I2C_Master_Transfer(lpi2c_rtos_handle_t handle, uint16_t slave_address, void * tx_buffer, size_t tx_size, void * rx_buffer, size_t rx_size)
+{
+	lpi2c_master_transfer_t masterXfer;
+	status_t status;
+
+	PRINTF("Master will send data :");
+	int i=0;
+	for (i = 0; i < tx_size; i++)
+	{
+		if (i % 8 == 0)
+		{
+			PRINTF("\r\n");
+		}
+		PRINTF("0x%2x  ", ((int *)tx_buffer)[i]);
+	}
+	PRINTF("\r\n\r\n");
+
+
+	memset(&masterXfer, 0, sizeof(masterXfer));
+	masterXfer.slaveAddress   = slave_address;
+	masterXfer.direction      = kLPI2C_Write;
+	masterXfer.subaddress     = 0;
+	masterXfer.subaddressSize = 0;
+	masterXfer.data           = tx_buffer;
+	masterXfer.dataSize       = tx_size;
+	masterXfer.flags          = kLPI2C_TransferDefaultFlag;
+
+	status = LPI2C_RTOS_Transfer(&handle, &masterXfer);
+	if (status == kStatus_Success)
+	{
+		PRINTF("I2C master transfer completed successfully.\r\n");
+
+		memset(&masterXfer, 0, sizeof(masterXfer));
+		masterXfer.slaveAddress   = slave_address;
+		masterXfer.direction      = kLPI2C_Read;
+		masterXfer.subaddress     = 0;
+		masterXfer.subaddressSize = 0;
+		masterXfer.data           = rx_buffer;
+		masterXfer.dataSize       = rx_size;
+		masterXfer.flags          = kLPI2C_TransferDefaultFlag;
+
+		status = LPI2C_RTOS_Transfer(&handle, &masterXfer);
+		PRINTF("Received data :");
+		for (i = 0; i < rx_size; i++)
+		{
+			if (i % 8 == 0)
+			{
+				PRINTF("\r\n");
+			}
+			PRINTF("0x%2x  ", ((int *)rx_buffer)[i]);
+		}
+		PRINTF("\r\n\r\n");
+	}
+	else
+	{
+		PRINTF("I2C master transfer completed with ERROR!\r\n");
+	}
+
+}
+
 static void master_task(void *pvParameters)
 {
     lpi2c_master_config_t masterConfig;
     lpi2c_rtos_handle_t master_rtos_handle;
-    lpi2c_master_transfer_t masterXfer;
+
     status_t status;
     uint32_t i = 0;
 
@@ -201,57 +261,59 @@ static void master_task(void *pvParameters)
     for(;;){
 		TickType_t xLastWakeTime = xTaskGetTickCount();
 
-		PRINTF("Master will send data :");
+		I2C_Master_Transfer(master_rtos_handle, I2C_MASTER_SLAVE_ADDR_7BIT, i2c1_tx_buff, I2C_DATA_LENGTH, i2c1_rx_buff, I2C_DATA_LENGTH);
+
+		vTaskDelayUntil(&xLastWakeTime, xDelayms);
+    }
+}
+
+
+
+/*
+ *
+  	memset(&masterXfer, 0, sizeof(masterXfer));
+	masterXfer.slaveAddress   = I2C_MASTER_SLAVE_ADDR_7BIT;
+	masterXfer.direction      = kLPI2C_Write;
+	masterXfer.subaddress     = 0;
+	masterXfer.subaddressSize = 0;
+	masterXfer.data           = i2c1_tx_buff;
+	masterXfer.dataSize       = I2C_DATA_LENGTH;
+	masterXfer.flags          = kLPI2C_TransferDefaultFlag;
+
+	status = LPI2C_RTOS_Transfer(&master_rtos_handle, &masterXfer);
+	if (status == kStatus_Success)
+	{
+		PRINTF("I2C master transfer completed successfully.\r\n");
+
+		memset(&masterXfer, 0, sizeof(masterXfer));
+		masterXfer.slaveAddress   = I2C_MASTER_SLAVE_ADDR_7BIT;
+		masterXfer.direction      = kLPI2C_Read;
+		masterXfer.subaddress     = 0;
+		masterXfer.subaddressSize = 0;
+		masterXfer.data           = i2c1_rx_buff;
+		masterXfer.dataSize       = I2C_DATA_LENGTH;
+		masterXfer.flags          = kLPI2C_TransferDefaultFlag;
+
+		status = LPI2C_RTOS_Transfer(&master_rtos_handle, &masterXfer);
+
+		PRINTF("Received data :");
 		for (i = 0; i < I2C_DATA_LENGTH; i++)
 		{
 			if (i % 8 == 0)
 			{
 				PRINTF("\r\n");
 			}
-			PRINTF("0x%2x  ", i2c1_tx_buff[i]);
+			PRINTF("0x%2x  ", i2c1_rx_buff[i]);
 		}
 		PRINTF("\r\n\r\n");
+	}
+	else
+	{
+		PRINTF("I2C master transfer completed with ERROR!\r\n");
+	}
 
-
-		memset(&masterXfer, 0, sizeof(masterXfer));
-		masterXfer.slaveAddress   = I2C_MASTER_SLAVE_ADDR_7BIT;
-		masterXfer.direction      = kLPI2C_Write;
-		masterXfer.subaddress     = 0;
-		masterXfer.subaddressSize = 0;
-		masterXfer.data           = i2c1_tx_buff;
-		masterXfer.dataSize       = I2C_DATA_LENGTH;
-		masterXfer.flags          = kLPI2C_TransferDefaultFlag;
-
-		status = LPI2C_RTOS_Transfer(&master_rtos_handle, &masterXfer);
-		if (status == kStatus_Success)
-		{
-			PRINTF("I2C master transfer completed successfully.\r\n");
-
-			memset(&masterXfer, 0, sizeof(masterXfer));
-			masterXfer.slaveAddress   = I2C_MASTER_SLAVE_ADDR_7BIT;
-			masterXfer.direction      = kLPI2C_Read;
-			masterXfer.subaddress     = 0;
-			masterXfer.subaddressSize = 0;
-			masterXfer.data           = i2c1_rx_buff;
-			masterXfer.dataSize       = I2C_DATA_LENGTH;
-			masterXfer.flags          = kLPI2C_TransferDefaultFlag;
-
-			PRINTF("Received data :");
-			for (i = 0; i < I2C_DATA_LENGTH; i++)
-			{
-				if (i % 8 == 0)
-				{
-					PRINTF("\r\n");
-				}
-				PRINTF("0x%2x  ", i2c1_rx_buff[i]);
-			}
-			PRINTF("\r\n\r\n");
-		}
-		else
-		{
-			PRINTF("I2C master transfer completed with ERROR!\r\n");
-		}
-
-		vTaskDelayUntil(&xLastWakeTime, xDelayms);
-    }
-}
+ *
+ *
+ *
+ *
+ * */
