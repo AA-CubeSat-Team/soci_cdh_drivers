@@ -49,19 +49,28 @@
 
 
 
-#define HMC5983_ADDR7BIT (0x1EU)
-//#define HMC5983_WHOAMI (0x0AU)
-#define HMC5983_STATUS (0x09U)
-#define HMC5983_CRA (0x00U)
-#define HMC5983_CRB (0x01U)
-#define HMC5983_MODE (0x02U)
-#define HMC5983_XMSB (0x03U)
-#define HMC5983_XLSB (0x04U)
-#define HMC5983_ZMSB (0x05U)
-#define HMC5983_ZLSB (0x06U)
-#define HMC5983_YMSB (0x07U)
-#define HMC5983_YLSB (0x08U)
-#define HMC5983_IRA  (0x0AU)
+#define HMC5983_ADDR7BIT (0x1E)
+//#define HMC5983_WHOAMI (0x0A)
+
+#define HMC5983_CONF_A		0x00
+#define HMC5983_CONF_B		0x01
+#define HMC5983_MODE		0x02
+#define HMC5983_OUT_X_MSB	0x03
+#define HMC5983_OUT_X_LSB	0x04
+#define HMC5983_OUT_Z_MSB	0x05
+#define HMC5983_OUT_Z_LSB	0x06
+#define HMC5983_OUT_Y_MSB	0x07
+#define HMC5983_OUT_Y_LSB	0x08
+#define HMC5983_STATUS		0x09
+#define HMC5983_ID_A		0x0A
+#define HMC5983_ID_B		0x0B
+#define HMC5983_ID_C		0x0C
+#define HMC5983_TEMP_OUT_MSB	0x31
+#define HMC5983_TEMP_OUT_LSB	0x32
+
+// I2C COMMANDS
+#define HMC5983_WRITE 	  	0x3C // includes the address (1E) plus read/write bit
+#define HMC5983_READ   	 	0x3D
 
 
 /* Task priorities. */
@@ -115,6 +124,27 @@ Rise (VDDIO=1.8V)
 
 example use: https://github.com/arduino/HMC5983/blob/master/HMC5983.h
  *
+ *
+ *
+ *
+ *
+ *
+All bus transactions begin with the master device issuing the start sequence followed by the slave address byte. The
+address byte contains the slave address; the upper 7 bits (bits7-1), and the Least Significant bit (LSb). The LSb of the
+address byte designates if the operation is a read (LSb=1) or a write (LSb=0). At the 9
+th clock pulse, the receiving slave
+device will issue the ACK (or NACK). Following these bus events, the master will send data bytes for a write operation, or
+the slave will clock out data with a read operation. All bus transactions are terminated with the master issuing a stop
+sequence.
+
+Below is an example of a (power-on) initialization process for “single-measurement mode” via I²C interface:
+1. Write CRA (00) – send 0x3C 0x00 0x70 (8-average, 15 Hz default or any other rate, normal measurement)
+2. Write CRB (01) – send 0x3C 0x01 0xA0 (Gain=5, or any other desired gain)
+3. For each measurement query:
+Write Mode (02) – send 0x3C 0x02 0x01 (Single-measurement mode)
+Wait 6 ms or monitor status register or DRDY hardware interrupt pin
+Send 0x3D 0x06 (Read all 6 bytes. If gain is changed then this data set is using previous gain)
+Convert three 16-bit 2’s compliment hex values to decimal values and assign to X, Z, Y, respectively.
  */
 
 
@@ -141,10 +171,13 @@ int main(void)
     NVIC_SetPriority(EXAMPLE_I2C_SLAVE_IRQN, 2);
     PRINTF("\r\nLPI2C example -- MasterInterrupt_SlaveInterrupt.\r\n");
 
+
+    //http://c1170156.r56.cf3.rackcdn.com/UK_HMP_HMC5983_DS.pdf
 //    /* Set up i2c master to send data to slave */
-//        g_master_buff[0] = 0x70U; //8-average, 15Hz rate
-//        g_master_buff[1] = 0xA0U; // Gain = 5
-//        g_master_buff[2] = 0x01U; //Single measurement mode
+//        g_master_buff[0] = 0x70U; // Config Reg A: 8-average, 15Hz rate
+//        g_master_buff[1] = 0xA0U; // Config Reg B: ( Default=0x20 ) Gain = 5
+//        g_master_buff[2] = 0x01U; // Mode Reg: Single measurement mode
+    // Output: DXRA (MSB) and DXRB (LSB) of X measurement
 
     /* Set up i2c master to send data to slave */
     for (i = 0; i < I2C_DATA_LENGTH; i++)
@@ -234,7 +267,6 @@ static void master_task(void *pvParameters)
     lpi2c_rtos_handle_t master_rtos_handle;
 
     status_t status;
-    uint32_t i = 0;
 
 	const TickType_t xDelayms = pdMS_TO_TICKS( 2000 );
 
