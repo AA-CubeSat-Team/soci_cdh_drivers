@@ -1,3 +1,0 @@
-peripherals.c:91:6:LPSPI_3_init	8	static
-peripherals.c:98:6:BOARD_InitPeripherals	8	static
-peripherals.c:107:6:BOARD_InitBootPeripherals	8	static
