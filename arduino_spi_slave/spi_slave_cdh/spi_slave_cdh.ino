@@ -34,8 +34,9 @@ ISR (SPI_STC_vect)
 {
   uint8_t c = SPDR;  // grab byte from SPI Data Register
   buf [pos++] = c;
-  
-  SPDR = ~c;
+
+  if(c == 4)
+    SPDR = 66;
 }  // end of interrupt routine SPI_STC_vect
 
 // main loop - wait for flag set in interrupt routine

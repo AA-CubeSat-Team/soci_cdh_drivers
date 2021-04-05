@@ -6,6 +6,25 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+
+/*
+ *
+ * Testing Setup with Arduino Uno 5V (Uses SPI3 with chip select CS0)
+ * (Arduino program located in the driver repo)
+ *
+ * RT1020                      Arduino
+ * J18-3 <--Level Converter--> 13 (SCK)
+ * J18-4 <--Level Converter--> 10 (CS0)
+ * J18-5 <--Level Converter--> 12 (MISO)
+ * J18-6 <--Level Converter--> 11 (MOSI)
+ * GNDs connected from both boards onto level converter GND ports
+ * 5V and 3.3V supplied to level converter (HV and LV) from
+ * respective boards or from a single boards 5V and 3.3V pins
+ *
+ *
+ */
+
+
 /* FreeRTOS kernel includes. */
 #include "FreeRTOS.h"
 #include "task.h"
@@ -40,7 +59,7 @@
 #define EXAMPLE_LPSPI_CLOCK_SOURCE_DIVIDER (7U)
 
 #define LPSPI_MASTER_CLK_FREQ (CLOCK_GetFreq(kCLOCK_Usb1PllPfd0Clk) / (EXAMPLE_LPSPI_CLOCK_SOURCE_DIVIDER + 1U))
-#define TRANSFER_SIZE     (64U)    /*! Transfer dataSize.*/
+#define TRANSFER_SIZE     (7U)//(64U)    /*! Transfer dataSize.*/
 #define TRANSFER_BAUDRATE (500000U) /*! Transfer baudrate - 500k */
 
 /*******************************************************************************
@@ -126,6 +145,29 @@ int main(void)
         ;
 }
 
+
+static void SPI_transfer(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, uint8_t * rxBuffer, size_t transferSize)
+{
+	lpspi_transfer_t masterXfer;
+	status_t status;
+
+	/*Start master transfer*/
+	masterXfer.txData      = txBuffer;
+	masterXfer.rxData      = rxBuffer;
+	masterXfer.dataSize    = transferSize;
+	masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
+
+	status = LPSPI_RTOS_Transfer(handler, &masterXfer);
+	if (status == kStatus_Success)
+	{
+		PRINTF("LPSPI master transfer completed successfully.\r\n");
+	}
+	else
+	{
+		PRINTF("LPSPI master transfer completed with error.\r\n");
+	}
+}
+
 /*!
  * @brief Task responsible for master SPI communication.
  */
@@ -147,21 +189,22 @@ static void master_task(void *pvParameters)
         vTaskSuspend(NULL);
     }
 
+    SPI_transfer(&master_rtos_handle, masterSendBuffer, masterReceiveBuffer, TRANSFER_SIZE);
     /*Start master transfer*/
-    masterXfer.txData      = masterSendBuffer;
-    masterXfer.rxData      = masterReceiveBuffer;
-    masterXfer.dataSize    = TRANSFER_SIZE;
-    masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
-
-    status = LPSPI_RTOS_Transfer(&master_rtos_handle, &masterXfer);
-    if (status == kStatus_Success)
-    {
-        PRINTF("LPSPI master transfer completed successfully.\r\n");
-    }
-    else
-    {
-        PRINTF("LPSPI master transfer completed with error.\r\n");
-    }
+//    masterXfer.txData      = masterSendBuffer;
+//    masterXfer.rxData      = masterReceiveBuffer;
+//    masterXfer.dataSize    = TRANSFER_SIZE;
+//    masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
+//
+//    status = LPSPI_RTOS_Transfer(&master_rtos_handle, &masterXfer);
+//    if (status == kStatus_Success)
+//    {
+//        PRINTF("LPSPI master transfer completed successfully.\r\n");
+//    }
+//    else
+//    {
+//        PRINTF("LPSPI master transfer completed with error.\r\n");
+//    }
 
     uint32_t errorCount;
     uint32_t i;

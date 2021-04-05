@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>evkmimxrt1020_freertos_lpspi_b2b_master</name>
+	<name>cdh_spi_driver_rt1020</name>
 	<comment></comment>
 	<projects>
 	</projects>
