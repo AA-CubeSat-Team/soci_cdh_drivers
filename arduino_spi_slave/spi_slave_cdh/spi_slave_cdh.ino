@@ -11,7 +11,8 @@ volatile boolean process_it;
 void setup (void)
 {
   Serial.begin (115200);   // debugging
-  
+  SPI.setClockDivider(SPI_CLOCK_DIV32);
+
   // turn on SPI in slave mode
   SPCR |= bit (SPE);
 
@@ -32,20 +33,18 @@ void setup (void)
 // SPI interrupt routine
 ISR (SPI_STC_vect)
 {
-  uint8_t c = SPDR;  // grab byte from SPI Data Register
+  uint8_t c = SPDR;  // grab byte from SPI Data Register: 00, 01, 02...
+  SPDR = ~SPDR; //returns the complement of the bytes: FF, FE, FD...
   buf [pos++] = c;
-
-  if(c == 4)
-    SPDR = 66;
 }  // end of interrupt routine SPI_STC_vect
 
 // main loop - wait for flag set in interrupt routine
 void loop (void)
 {
-  if (pos == 64)
+  if (pos == 7)
     {
       for(int i=0; i<pos; i++){
-        Serial.print (buf [i]);
+        Serial.print (buf [i], HEX);
         Serial.print (" ");
       }
       Serial.println ("\n");

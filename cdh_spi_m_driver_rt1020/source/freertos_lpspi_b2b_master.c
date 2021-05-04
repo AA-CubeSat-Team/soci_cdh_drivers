@@ -128,7 +128,7 @@ int main(void)
     for (i = 0; i < TRANSFER_SIZE; i++)
     {
         masterSendBuffer[i]    = i % 256;
-        masterReceiveBuffer[i] = 0;
+        //masterReceiveBuffer[i] = 0;
 
         slaveSendBuffer[i] = ~masterSendBuffer[i];//checks match with slave response
     }
@@ -151,7 +151,7 @@ static void SPI_transfer(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, uint
 	lpspi_transfer_t masterXfer;
 	status_t status;
 
-	/*Start master transfer*/
+	//Start master transfer
 	masterXfer.txData      = txBuffer;
 	masterXfer.rxData      = rxBuffer;
 	masterXfer.dataSize    = transferSize;
@@ -165,6 +165,115 @@ static void SPI_transfer(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, uint
 	else
 	{
 		PRINTF("LPSPI master transfer completed with error.\r\n");
+	}
+}
+
+static void SPI_transfer2(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, uint8_t * rxBuffer, size_t transferSize)
+{
+	lpspi_transfer_t masterXfer;
+	status_t status;
+	transferSize++;
+	uint8_t newtxBuffer[transferSize];
+	uint8_t newrxBuffer[transferSize];
+	memcpy(newtxBuffer, txBuffer, transferSize - 1);
+	newtxBuffer[transferSize - 1] = 0;
+
+	//Start master transfer
+	masterXfer.txData      = newtxBuffer;
+	masterXfer.rxData      = newrxBuffer;
+	masterXfer.dataSize    = transferSize;
+	masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
+
+	status = LPSPI_RTOS_Transfer(handler, &masterXfer);
+	if (status == kStatus_Success)
+	{
+		PRINTF("LPSPI master transfer completed successfully.\r\n");
+		memcpy(rxBuffer, &newrxBuffer[1], transferSize - 1);
+	}
+	else
+	{
+		PRINTF("LPSPI master transfer completed with error.\r\n");
+	}
+}
+
+void SPI_send(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, size_t transferSize)
+{
+	lpspi_transfer_t masterXfer;
+	status_t status;
+	transferSize++;
+
+	/*Start master transfer*/
+	uint8_t rxBuffer[transferSize];
+	uint8_t newtxBuffer[transferSize];
+	memcpy(&newtxBuffer[1], txBuffer, transferSize - 1);
+	newtxBuffer[0] = 0;
+	masterXfer.txData      = newtxBuffer;
+	masterXfer.rxData      = rxBuffer;
+	masterXfer.dataSize    = transferSize;
+	masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
+
+	status = LPSPI_RTOS_Transfer(handler, &masterXfer);
+	//sanity check
+	PRINTF("SPI SEND");
+	PRINTF("Send Buffer: ");
+	for(int i = 0; i < sizeof(newtxBuffer); i++) {
+		PRINTF("%d ", newtxBuffer[i]);
+	}
+	PRINTF("\n");
+	PRINTF("Receive Buffer: ");
+	for(int i = 0; i < sizeof(rxBuffer); i++) {
+		PRINTF("%d ", rxBuffer[i]);
+	}
+	PRINTF("\n");
+	memset(rxBuffer, 0, sizeof(rxBuffer));
+	if (status == kStatus_Success)
+	{
+		PRINTF("LPSPI master send completed successfully.\r\n");
+	}
+	else
+	{
+		PRINTF("LPSPI master send completed with error.\r\n");
+	}
+}
+
+void SPI_request(lpspi_rtos_handle_t * handler, uint8_t * rxBuffer, size_t transferSize)
+{
+	lpspi_transfer_t masterXfer;
+	status_t status;
+	transferSize++;
+
+	uint8_t txBuffer[transferSize];
+	uint8_t newrxBuffer[transferSize];
+	memset(txBuffer, 0xFF, transferSize);
+	/*Start master transfer*/
+	masterXfer.txData      = txBuffer;
+	masterXfer.rxData      = newrxBuffer;
+	masterXfer.dataSize    = transferSize;
+	masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
+
+	status = LPSPI_RTOS_Transfer(handler, &masterXfer);
+
+	//sanity check
+	PRINTF("SPI SEND");
+	PRINTF("Send Buffer: ");
+	for(int i = 0; i < sizeof(txBuffer); i++) {
+		PRINTF("%d ", txBuffer[i]);
+	}
+	PRINTF("\n");
+	PRINTF("Receive Buffer: ");
+	for(int i = 0; i < sizeof(newrxBuffer); i++) {
+		PRINTF("%d ", newrxBuffer[i]);
+	}
+	PRINTF("\n");
+
+	if (status == kStatus_Success)
+	{
+		PRINTF("LPSPI master request completed successfully.\r\n");
+		memcpy(rxBuffer, &newrxBuffer[1], transferSize - 1);
+	}
+	else
+	{
+		PRINTF("LPSPI master request completed with error.\r\n");
 	}
 }
 
@@ -189,28 +298,16 @@ static void master_task(void *pvParameters)
         vTaskSuspend(NULL);
     }
 
-    SPI_transfer(&master_rtos_handle, masterSendBuffer, masterReceiveBuffer, TRANSFER_SIZE);
-    /*Start master transfer*/
-//    masterXfer.txData      = masterSendBuffer;
-//    masterXfer.rxData      = masterReceiveBuffer;
-//    masterXfer.dataSize    = TRANSFER_SIZE;
-//    masterXfer.configFlags = EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER | kLPSPI_MasterPcsContinuous | kLPSPI_SlaveByteSwap;
-//
-//    status = LPSPI_RTOS_Transfer(&master_rtos_handle, &masterXfer);
-//    if (status == kStatus_Success)
-//    {
-//        PRINTF("LPSPI master transfer completed successfully.\r\n");
-//    }
-//    else
-//    {
-//        PRINTF("LPSPI master transfer completed with error.\r\n");
-//    }
+
+    // SPI_transfer(&master_rtos_handle, masterSendBuffer, masterReceiveBuffer, TRANSFER_SIZE);
+    SPI_send(&master_rtos_handle, masterSendBuffer, TRANSFER_SIZE);
+    SPI_request(&master_rtos_handle, masterReceiveBuffer, TRANSFER_SIZE);
 
     uint32_t errorCount;
     uint32_t i;
 
     PRINTF("EXPECTED: \n");
-    for (i = 0U; i < TRANSFER_SIZE; i++)
+    for (i = 0; i < TRANSFER_SIZE; i++)
     	{
     		/* Print 16 numbers in a line */
     		if ((i % 0x08U) == 0U)
@@ -223,7 +320,7 @@ static void master_task(void *pvParameters)
 
         PRINTF("RECEIVED: \n");
 
-    for (i = 0U; i < TRANSFER_SIZE; i++)
+    for (i = 0; i < TRANSFER_SIZE; i++)
 	{
 		/* Print 16 numbers in a line */
 		if ((i % 0x08U) == 0U)

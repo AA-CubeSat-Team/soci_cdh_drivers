@@ -29,12 +29,12 @@ void loop() {
 // this function is registered as an event, see setup()
 void receiveEvent(int howMany) {
   Serial.println("I2C interrupt");
-  while (1 < Wire.available()) { // loop through all but the last
-    char c = Wire.read(); // receive byte as a character
-    Serial.print(c);         // print the character
+  while (0 < Wire.available()) { // loop through all but the last
+    uint8_t c = Wire.read(); // receive byte as a character
+    Serial.print("0x");
+    Serial.print(c, HEX);
+    Serial.print(" ");
   }
-  int x = Wire.read();    // receive byte as an integer
-  Serial.println(x);         // print the integer
 }
 
 void requestEvent() {
