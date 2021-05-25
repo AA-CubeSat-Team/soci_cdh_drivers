@@ -57,13 +57,13 @@ const char *to_send               = "FreeRTOS LPUART driver example!\r\n";
 const char *send_ring_overrun     = "\r\nRing buffer overrun!\r\n";
 const char *send_hardware_overrun = "\r\nHardware buffer overrun!\r\n";
 uint8_t background_buffer[32];
-uint8_t recv_buffer[4];
+uint8_t recv_buffer[10];
 
 lpuart_rtos_handle_t handle;
 struct _lpuart_handle t_handle;
 
 lpuart_rtos_config_t lpuart_config = {
-    .baudrate    = 115200,
+    .baudrate    = 74880,
     .parity      = kLPUART_ParityDisabled,
     .stopbits    = kLPUART_OneStopBit,
     .buffer      = background_buffer,
@@ -119,7 +119,7 @@ static void uart_task(void *pvParameters)
     /* Receive user input and send it back to terminal. */
     do
     {
-        error = LPUART_RTOS_Receive(&handle, recv_buffer, sizeof(recv_buffer), &n);
+        error = LPUART_RTOS_Receive(&handle, recv_buffer, 4, &n);
 
         PRINTF("n = %d\n", n);
         if (error == kStatus_LPUART_RxHardwareOverrun)
