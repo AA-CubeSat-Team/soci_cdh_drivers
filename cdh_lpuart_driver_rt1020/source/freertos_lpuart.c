@@ -53,11 +53,11 @@ static void uart_task(void *pvParameters);
 /*******************************************************************************
  * Code
  ******************************************************************************/
-const char *to_send               = "FreeRTOS LPUART driver example!\r\n";
-const char *send_ring_overrun     = "\r\nRing buffer overrun!\r\n";
-const char *send_hardware_overrun = "\r\nHardware buffer overrun!\r\n";
-uint8_t background_buffer[32];
-uint8_t recv_buffer[10];
+const char *to_send               = "FreeRTOSFreeRTOS";
+const char *send_ring_overrun     = "\r\nRing buffer overrun!FreeRTOS\r\n";
+const char *send_hardware_overrun = "\r\nHardware buffer overrun!FreeRTOS\r\n";
+uint8_t background_buffer[500];
+uint8_t recv_buffer[100];
 
 lpuart_rtos_handle_t handle;
 struct _lpuart_handle t_handle;
@@ -93,6 +93,36 @@ int main(void)
         ;
 }
 
+
+static int uart_send(lpuart_rtos_handle_t *handle, uint8_t *buffer, uint32_t length){
+	for (int i = 0; i < length; i++){
+		if (kStatus_Success != LPUART_RTOS_Send(handle, &buffer[i], 1))
+		{
+			PRINTF("failed to send the %dth byte, terminating \r\n", i);
+			return kStatus_Fail;
+		} else {
+			PRINTF("successfully sent %c \r\n", buffer[i]);
+		}
+	}
+	return kStatus_Success;
+}
+
+static int uart_request(lpuart_rtos_handle_t *handle, uint8_t *buffer, uint32_t length, size_t *n){
+	for (int i = 0; i < length; i++){
+		size_t small_n = 0;
+		int error = LPUART_RTOS_Receive(handle, &buffer[i], 1, &small_n);
+		if (error != kStatus_Success)
+		{
+			PRINTF("failed to receive the %dth byte, terminating \r\n", i);
+			return error;
+		} else {
+			PRINTF("successfully received %c at %d byte\r\n", buffer[i], i);
+			*n += small_n;
+		}
+	}
+	return kStatus_Success;
+}
+
 /*!
  * @brief Task responsible for loopback.
  */
@@ -110,23 +140,23 @@ static void uart_task(void *pvParameters)
     }
 
     /* Send introduction message. */
-    if (kStatus_Success != LPUART_RTOS_Send(&handle, (uint8_t *)to_send, strlen(to_send)))
-    {
-        vTaskSuspend(NULL);
+    if (kStatus_Success != uart_send(&handle, (uint8_t *)to_send, strlen(to_send))){
+    	vTaskSuspend( NULL );
     }
     PRINTF("message sent\n");
 
     /* Receive user input and send it back to terminal. */
     do
     {
-        error = LPUART_RTOS_Receive(&handle, recv_buffer, 4, &n);
+    	n = 0;
+        error = uart_request(&handle, recv_buffer, 8, &n);
 
         PRINTF("n = %d\n", n);
         if (error == kStatus_LPUART_RxHardwareOverrun)
         {
             /* Notify about hardware buffer overrun */
             if (kStatus_Success !=
-                LPUART_RTOS_Send(&handle, (uint8_t *)send_hardware_overrun, strlen(send_hardware_overrun)))
+				uart_send(&handle, (uint8_t *)send_hardware_overrun, strlen(send_hardware_overrun)))
             {
                 vTaskSuspend(NULL);
             }
@@ -134,7 +164,7 @@ static void uart_task(void *pvParameters)
         if (error == kStatus_LPUART_RxRingBufferOverrun)
         {
             /* Notify about ring buffer overrun */
-            if (kStatus_Success != LPUART_RTOS_Send(&handle, (uint8_t *)send_ring_overrun, strlen(send_ring_overrun)))
+            if (kStatus_Success != uart_send(&handle, (uint8_t *)send_ring_overrun, strlen(send_ring_overrun)))
             {
                 vTaskSuspend(NULL);
             }
@@ -142,11 +172,12 @@ static void uart_task(void *pvParameters)
         if (n > 0)
         {
             /* send back the received data */
-            if (kStatus_Success != LPUART_RTOS_Send(&handle, (uint8_t *)recv_buffer, n))
+            if (kStatus_Success != uart_send(&handle, (uint8_t *)recv_buffer, 8))
             {
                 vTaskSuspend(NULL);
             }
         }
+//        vTaskDelay(1000);
     } while (kStatus_Success == error);
 
     LPUART_RTOS_Deinit(&handle);
