@@ -149,7 +149,7 @@ static void uart_task(void *pvParameters)
     do
     {
     	n = 0;
-        error = uart_request(&handle, recv_buffer, 8, &n);
+        error = uart_request(&handle, recv_buffer, 16, &n);
 
         PRINTF("n = %d\n", n);
         if (error == kStatus_LPUART_RxHardwareOverrun)
@@ -172,7 +172,7 @@ static void uart_task(void *pvParameters)
         if (n > 0)
         {
             /* send back the received data */
-            if (kStatus_Success != uart_send(&handle, (uint8_t *)recv_buffer, 8))
+            if (kStatus_Success != uart_send(&handle, (uint8_t *)recv_buffer, 16))
             {
                 vTaskSuspend(NULL);
             }
