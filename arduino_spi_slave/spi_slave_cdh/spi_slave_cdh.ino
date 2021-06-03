@@ -34,14 +34,14 @@ void setup (void)
 ISR (SPI_STC_vect)
 {
   uint8_t c = SPDR;  // grab byte from SPI Data Register: 00, 01, 02...
-  SPDR = ~SPDR; //returns the complement of the bytes: FF, FE, FD...
+//  SPDR = ~SPDR; //returns the complement of the bytes: FF, FE, FD...
   buf [pos++] = c;
 }  // end of interrupt routine SPI_STC_vect
 
 // main loop - wait for flag set in interrupt routine
 void loop (void)
 {
-  if (pos == 7)
+  if (pos == 15)
     {
       for(int i=0; i<pos; i++){
         Serial.print (buf [i], HEX);

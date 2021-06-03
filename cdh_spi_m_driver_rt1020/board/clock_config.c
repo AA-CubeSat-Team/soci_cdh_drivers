@@ -1,10 +1,4 @@
 /*
- * Copyright 2018-2020 NXP
- * All rights reserved.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
-/*
  * How to setup clock using clock driver functions:
  *
  * 1. Call CLOCK_InitXXXPLL() to configure corresponding PLL clock.
@@ -25,7 +19,7 @@ product: Clocks v7.0
 processor: MIMXRT1021xxxxx
 package_id: MIMXRT1021DAG5A
 mcu_data: ksdk2_0
-processor_version: 0.7.10
+processor_version: 8.0.2
 board: MIMXRT1020-EVK
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
@@ -241,7 +235,7 @@ void BOARD_BootClockRUN(void)
     /* Set FLEXSPI_PODF. */
     CLOCK_SetDiv(kCLOCK_FlexspiDiv, 3);
     /* Set Flexspi clock source. */
-    CLOCK_SetMux(kCLOCK_FlexspiMux, 3);
+    CLOCK_SetMux(kCLOCK_FlexspiMux, 2);
 #endif
     /* Disable LPSPI clock gate. */
     CLOCK_DisableClock(kCLOCK_Lpspi1);

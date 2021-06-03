@@ -5,7 +5,7 @@
   SoftwareSerial mySerial = SoftwareSerial(2,3); //2 -> slave's RX, 3 -> slave's TX
 #endif
 
-#define messageSize 16
+#define messageSize 8
 
 bool writeFlag = false;
 void setup() {
@@ -40,7 +40,7 @@ void loop() {
     #endif
       len = 0;
       writeFlag = false; //finish writing
-      char str[] = "1234567890123456";
+      char str[] = "something";
       for (int i = 0; i < strlen(str); i++) {
         #if UNO
           mySerial.write(str[i]);

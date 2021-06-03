@@ -47,8 +47,8 @@
  * Definitions
  ******************************************************************************/
 /* Master related */
-#define EXAMPLE_LPSPI_MASTER_BASEADDR (LPSPI3)
-#define EXAMPLE_LPSPI_MASTER_IRQN     LPSPI3_IRQn
+#define EXAMPLE_LPSPI_MASTER_BASEADDR (LPSPI1)
+#define EXAMPLE_LPSPI_MASTER_IRQN     LPSPI1_IRQn
 
 #define EXAMPLE_LPSPI_MASTER_PCS_FOR_INIT     (kLPSPI_Pcs0)
 #define EXAMPLE_LPSPI_MASTER_PCS_FOR_TRANSFER (kLPSPI_MasterPcs0)
@@ -59,7 +59,7 @@
 #define EXAMPLE_LPSPI_CLOCK_SOURCE_DIVIDER (7U)
 
 #define LPSPI_MASTER_CLK_FREQ (CLOCK_GetFreq(kCLOCK_Usb1PllPfd0Clk) / (EXAMPLE_LPSPI_CLOCK_SOURCE_DIVIDER + 1U))
-#define TRANSFER_SIZE     (7U)//(64U)    /*! Transfer dataSize.*/
+#define TRANSFER_SIZE     (100U)//(64U)    /*! Transfer dataSize.*/
 #define TRANSFER_BAUDRATE (500000U) /*! Transfer baudrate - 500k */
 
 /*******************************************************************************
@@ -128,9 +128,8 @@ int main(void)
     for (i = 0; i < TRANSFER_SIZE; i++)
     {
         masterSendBuffer[i]    = i % 256;
-        //masterReceiveBuffer[i] = 0;
 
-        slaveSendBuffer[i] = ~masterSendBuffer[i];//checks match with slave response
+        slaveSendBuffer[i] = masterSendBuffer[i];//checks match with slave response
     }
 
     if (xTaskCreate(master_task, "Master_task", configMINIMAL_STACK_SIZE + 64, NULL, master_task_PRIORITY, NULL) !=
@@ -167,7 +166,7 @@ static void SPI_transfer(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, uint
 		PRINTF("LPSPI master transfer completed with error.\r\n");
 	}
 }
-
+/*
 static void SPI_transfer2(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, uint8_t * rxBuffer, size_t transferSize)
 {
 	lpspi_transfer_t masterXfer;
@@ -202,7 +201,6 @@ void SPI_send(lpspi_rtos_handle_t * handler, uint8_t * txBuffer, size_t transfer
 	status_t status;
 	transferSize++;
 
-	/*Start master transfer*/
 	uint8_t rxBuffer[transferSize];
 	uint8_t newtxBuffer[transferSize];
 	memcpy(&newtxBuffer[1], txBuffer, transferSize - 1);
@@ -245,7 +243,6 @@ void SPI_request(lpspi_rtos_handle_t * handler, uint8_t * rxBuffer, size_t trans
 	uint8_t txBuffer[transferSize];
 	uint8_t newrxBuffer[transferSize];
 	memset(txBuffer, 0xFF, transferSize);
-	/*Start master transfer*/
 	masterXfer.txData      = txBuffer;
 	masterXfer.rxData      = newrxBuffer;
 	masterXfer.dataSize    = transferSize;
@@ -276,7 +273,7 @@ void SPI_request(lpspi_rtos_handle_t * handler, uint8_t * rxBuffer, size_t trans
 		PRINTF("LPSPI master request completed with error.\r\n");
 	}
 }
-
+*/
 /*!
  * @brief Task responsible for master SPI communication.
  */
@@ -299,15 +296,15 @@ static void master_task(void *pvParameters)
     }
 
 
-    // SPI_transfer(&master_rtos_handle, masterSendBuffer, masterReceiveBuffer, TRANSFER_SIZE);
-    SPI_send(&master_rtos_handle, masterSendBuffer, TRANSFER_SIZE);
-    SPI_request(&master_rtos_handle, masterReceiveBuffer, TRANSFER_SIZE);
+     SPI_transfer(&master_rtos_handle, masterSendBuffer, masterReceiveBuffer, 16);
+//    SPI_send(&master_rtos_handle, masterSendBuffer, TRANSFER_SIZE);
+//    SPI_request(&master_rtos_handle, masterReceiveBuffer, TRANSFER_SIZE);
 
     uint32_t errorCount;
     uint32_t i;
 
     PRINTF("EXPECTED: \n");
-    for (i = 0; i < TRANSFER_SIZE; i++)
+    for (i = 0; i < 16; i++)
     	{
     		/* Print 16 numbers in a line */
     		if ((i % 0x08U) == 0U)
@@ -320,7 +317,7 @@ static void master_task(void *pvParameters)
 
         PRINTF("RECEIVED: \n");
 
-    for (i = 0; i < TRANSFER_SIZE; i++)
+    for (i = 0; i < 16; i++)
 	{
 		/* Print 16 numbers in a line */
 		if ((i % 0x08U) == 0U)
@@ -332,7 +329,7 @@ static void master_task(void *pvParameters)
 	PRINTF("\r\n");
 
     errorCount = 0;
-    for (i = 0; i < TRANSFER_SIZE; i++)
+    for (i = 0; i < 16; i++)
     {
         if (slaveSendBuffer[i] != masterReceiveBuffer[i])
         {
