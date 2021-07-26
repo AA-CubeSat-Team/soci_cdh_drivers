@@ -67,6 +67,11 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_UART1_TXD_PERIPHERAL                              LPUART1   /*!< Peripheral name */
 #define BOARD_INITPINS_UART1_TXD_SIGNAL                                       TX   /*!< Signal name */
 
+/* GPIO_AD_B1_06 (number 84), ENET_INT/U11[21]/J17[8] */
+/* Routed pin properties */
+#define BOARD_INITPINS_ENET_INT_PERIPHERAL                                LPSPI1   /*!< Peripheral name */
+#define BOARD_INITPINS_ENET_INT_SIGNAL                                      PCS3   /*!< Signal name */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.

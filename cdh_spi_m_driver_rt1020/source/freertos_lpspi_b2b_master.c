@@ -286,7 +286,7 @@ static void master_task(void *pvParameters)
 
     LPSPI_MasterGetDefaultConfig(&masterConfig);
     masterConfig.baudRate = TRANSFER_BAUDRATE;
-    masterConfig.whichPcs = EXAMPLE_LPSPI_MASTER_PCS_FOR_INIT;
+    masterConfig.whichPcs = 0U;//EXAMPLE_LPSPI_MASTER_PCS_FOR_INIT;
 
     status = LPSPI_RTOS_Init(&master_rtos_handle, EXAMPLE_LPSPI_MASTER_BASEADDR, &masterConfig, LPSPI_MASTER_CLK_FREQ);
     if (status != kStatus_Success)

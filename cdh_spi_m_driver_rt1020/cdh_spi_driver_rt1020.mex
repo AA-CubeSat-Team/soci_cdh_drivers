@@ -134,6 +134,9 @@
                         <pin_feature name="hysteresis_enable" value="Disable"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="LPSPI1" signal="PCS1" pin_num="88" pin_signal="GPIO_AD_B1_04"/>
+                  <pin peripheral="LPSPI1" signal="PCS2" pin_num="87" pin_signal="GPIO_AD_B1_05"/>
+                  <pin peripheral="LPSPI1" signal="PCS3" pin_num="84" pin_signal="GPIO_AD_B1_06"/>
                </pins>
             </function>
          </functions_list>
