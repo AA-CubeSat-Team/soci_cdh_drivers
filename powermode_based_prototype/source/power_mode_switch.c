@@ -23,6 +23,8 @@
 
 #include "pin_mux.h"
 #include "clock_config.h"
+
+#include "semc_sdram.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -80,38 +82,6 @@ bool APP_CheckPowerMode(lpm_power_mode_t originPowerMode, lpm_power_mode_t targe
     }
 
     return modeValid;
-}
-
-void APP_PowerPostSwitchHook(lpm_power_mode_t targetMode)
-{
-    if (targetMode > LPM_PowerModeRunEnd)
-    {
-        /*
-         * Debug console RX pin is set to GPIO input, need to re-configure pinmux.
-         * Debug console TX pin: Don't need to change.
-         */
-        ReConfigUartRxPin();
-        BOARD_InitDebugConsole();
-
-        /* recover to previous run mode */
-        switch (APP_GetRunMode())
-        {
-            case LPM_PowerModeOverRun:
-                LPM_OverDriveRun();
-                break;
-            case LPM_PowerModeFullRun:
-                LPM_FullSpeedRun();
-                break;
-            case LPM_PowerModeLowSpeedRun:
-                LPM_LowSpeedRun();
-                break;
-            case LPM_PowerModeLowPowerRun:
-                LPM_LowPowerRun();
-                break;
-            default:
-                break;
-        }
-    }
 }
 
 lpm_power_mode_t APP_GetLPMPowerMode(void)
@@ -228,7 +198,12 @@ static void PowerModeSwitchTask(void *pvParameters)
 static void WorkingTask(void *pvParameters)
 {
     //LPM_RegisterPowerListener(APP_LpmListener, pvParameters);
-
+	memset(sdram_writeBuffer, 0xFF, sizeof(sdram_writeBuffer));
+	SEMC_SDRAM_Write(0, 10, 1);
+	SEMC_SDRAM_Read(0, 10, 1);
+	for (int i = 0; i < 10; i++) {
+		PRINTF("%2x ", sdram_readBuffer[i]);
+	}
     for (;;)
     {
         /* Use App task logic to replace vTaskDelay */
@@ -265,6 +240,11 @@ int main(void)
         PRINTF("LPM Init Failed!\r\n");
         return -1;
     }
+
+    if (BOARD_InitSEMC() != kStatus_Success)
+	{
+		PRINTF("\r\n SEMC SDRAM Init Failed\r\n");
+	}
 
     xReturn = xTaskCreate(PowerModeSwitchTask, "Power Mode Switch Task", configMINIMAL_STACK_SIZE + 512, NULL,
                           tskIDLE_PRIORITY + 1U, NULL);

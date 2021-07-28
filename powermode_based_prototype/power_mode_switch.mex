@@ -70,12 +70,17 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="LPI2C3" description="Peripheral LPI2C3 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                  <dependency resourceType="Peripheral" resourceId="JTAG" description="Peripheral JTAG is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="JTAG" description="Peripheral JTAG is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                  <dependency resourceType="Peripheral" resourceId="LPSPI1" description="Peripheral LPSPI1 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="LPI2C4" description="Peripheral LPI2C4 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -117,8 +122,6 @@
                   <pin peripheral="LPI2C1" signal="SDA" pin_num="74" pin_signal="GPIO_AD_B1_15"/>
                   <pin peripheral="LPI2C2" signal="SCL" pin_num="82" pin_signal="GPIO_AD_B1_08"/>
                   <pin peripheral="LPI2C2" signal="SDA" pin_num="81" pin_signal="GPIO_AD_B1_09"/>
-                  <pin peripheral="LPI2C3" signal="SCL" pin_num="48" pin_signal="GPIO_SD_B0_00"/>
-                  <pin peripheral="LPI2C3" signal="SDA" pin_num="47" pin_signal="GPIO_SD_B0_01"/>
                   <pin peripheral="GPIO1" signal="gpio_io, 23" pin_num="83" pin_signal="GPIO_AD_B1_07"/>
                   <pin peripheral="GPIO5" signal="gpio_io, 00" pin_num="52" pin_signal="WAKEUP"/>
                   <pin peripheral="JTAG" signal="TCK" pin_num="110" pin_signal="GPIO_AD_B0_01"/>
@@ -126,6 +129,14 @@
                   <pin peripheral="JTAG" signal="TDO" pin_num="107" pin_signal="GPIO_AD_B0_04"/>
                   <pin peripheral="JTAG" signal="TMS" pin_num="111" pin_signal="GPIO_AD_B0_00"/>
                   <pin peripheral="JTAG" signal="TRSTB" pin_num="106" pin_signal="GPIO_AD_B0_05"/>
+                  <pin peripheral="LPSPI1" signal="SCK" pin_num="98" pin_signal="GPIO_AD_B0_10"/>
+                  <pin peripheral="LPSPI1" signal="SDI" pin_num="95" pin_signal="GPIO_AD_B0_13"/>
+                  <pin peripheral="LPSPI1" signal="SDO" pin_num="96" pin_signal="GPIO_AD_B0_12"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 09" pin_num="99" pin_signal="GPIO_AD_B0_09"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 28" pin_num="78" pin_signal="GPIO_AD_B1_12"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 29" pin_num="76" pin_signal="GPIO_AD_B1_13"/>
+                  <pin peripheral="LPI2C4" signal="SCL" pin_num="30" pin_signal="GPIO_SD_B1_02"/>
+                  <pin peripheral="LPI2C4" signal="SDA" pin_num="28" pin_signal="GPIO_SD_B1_03"/>
                </pins>
             </function>
          </functions_list>

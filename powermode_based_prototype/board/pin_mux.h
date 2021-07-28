@@ -62,16 +62,6 @@ void BOARD_InitBootPins(void);
 #define BOARD_ENET_TXD0_PERIPHERAL                                       LPUART3   /*!< Peripheral name */
 #define BOARD_ENET_TXD0_SIGNAL                                                TX   /*!< Signal name */
 
-/* GPIO_SD_B0_00 (number 48), SD1_D2/J15[1] */
-/* Routed pin properties */
-#define BOARD_SD1_D2_PERIPHERAL                                           LPI2C3   /*!< Peripheral name */
-#define BOARD_SD1_D2_SIGNAL                                                  SCL   /*!< Signal name */
-
-/* GPIO_SD_B0_01 (number 47), SD1_D3/J15[2] */
-/* Routed pin properties */
-#define BOARD_SD1_D3_PERIPHERAL                                           LPI2C3   /*!< Peripheral name */
-#define BOARD_SD1_D3_SIGNAL                                                  SDA   /*!< Signal name */
-
 /* WAKEUP (number 52), USER_BUTTON */
 /* Routed pin properties */
 #define BOARD_USER_BUTTON_PERIPHERAL                                       GPIO5   /*!< Peripheral name */
@@ -87,6 +77,43 @@ void BOARD_InitBootPins(void);
 /* Routed pin properties */
 #define BOARD_ENET_RST_PERIPHERAL                                           JTAG   /*!< Peripheral name */
 #define BOARD_ENET_RST_SIGNAL                                                TDO   /*!< Signal name */
+
+/* GPIO_AD_B0_10 (number 98), ENET_RXD0/U11[16]/J19[6] */
+/* Routed pin properties */
+#define BOARD_ENET_RXD0_PERIPHERAL                                        LPSPI1   /*!< Peripheral name */
+#define BOARD_ENET_RXD0_SIGNAL                                               SCK   /*!< Signal name */
+
+/* GPIO_AD_B0_13 (number 95), ENET_TXEN/U11[23]/J19[5] */
+/* Routed pin properties */
+#define BOARD_ENET_TXEN_PERIPHERAL                                        LPSPI1   /*!< Peripheral name */
+#define BOARD_ENET_TXEN_SIGNAL                                               SDI   /*!< Signal name */
+
+/* GPIO_AD_B0_12 (number 96), ENET_RXER/U11[20]/J19[4] */
+/* Routed pin properties */
+#define BOARD_ENET_RXER_PERIPHERAL                                        LPSPI1   /*!< Peripheral name */
+#define BOARD_ENET_RXER_SIGNAL                                               SDO   /*!< Signal name */
+
+/* GPIO_AD_B0_09 (number 99), ENET_RXD1/U11[15]/J17[3] */
+/* Routed pin properties */
+#define BOARD_ENET_RXD1_PERIPHERAL                                         GPIO1   /*!< Peripheral name */
+#define BOARD_ENET_RXD1_SIGNAL                                           gpio_io   /*!< Signal name */
+#define BOARD_ENET_RXD1_CHANNEL                                               9U   /*!< Signal channel */
+
+/* Symbols to be used with GPIO driver */
+#define BOARD_ENET_RXD1_GPIO                                               GPIO1   /*!< GPIO peripheral base pointer */
+#define BOARD_ENET_RXD1_GPIO_PIN                                              9U   /*!< GPIO pin number */
+#define BOARD_ENET_RXD1_GPIO_PIN_MASK                                 (1U << 9U)   /*!< GPIO pin mask */
+
+/* GPIO_AD_B1_13 (number 76), CAN_STBY/J18[4] */
+/* Routed pin properties */
+#define BOARD_CAN_STBY_PERIPHERAL                                          GPIO1   /*!< Peripheral name */
+#define BOARD_CAN_STBY_SIGNAL                                            gpio_io   /*!< Signal name */
+#define BOARD_CAN_STBY_CHANNEL                                               29U   /*!< Signal channel */
+
+/* Symbols to be used with GPIO driver */
+#define BOARD_CAN_STBY_GPIO                                                GPIO1   /*!< GPIO peripheral base pointer */
+#define BOARD_CAN_STBY_GPIO_PIN                                              29U   /*!< GPIO pin number */
+#define BOARD_CAN_STBY_GPIO_PIN_MASK                                 (1U << 29U)   /*!< GPIO pin mask */
 
 
 /*!
